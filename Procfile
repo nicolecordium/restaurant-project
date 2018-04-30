@@ -1,2 +1,2 @@
-web: node index.js
+web: npm run start
 worker: node etl.js
