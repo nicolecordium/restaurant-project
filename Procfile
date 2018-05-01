@@ -1,2 +1,2 @@
 web: npm run start
-worker: node etl.js
+worker: npm run start:etl
