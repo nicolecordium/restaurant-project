@@ -17,10 +17,7 @@ const createTable = (databaseClient) => {
 	WITH (
 		OIDS = FALSE
 	)
-	TABLESPACE pg_default;
-	
-	ALTER TABLE public.restaurants
-		OWNER to postgres;`
+	TABLESPACE pg_default;`
 	return databaseClient.query(createQuery);
 };
 
