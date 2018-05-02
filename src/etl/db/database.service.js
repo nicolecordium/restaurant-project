@@ -1,6 +1,6 @@
 const createTable = (databaseClient) => {
 	const createQuery = `
-	DROP TABLE public.restaurants;
+	DROP TABLE IF EXISTS public.restaurants;
 	
 	CREATE TABLE public.restaurants
 	(
