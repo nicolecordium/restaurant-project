@@ -11,8 +11,7 @@ let restaurantGradeCache = {};
 // create the data table if doesn't already exist
 pool.connect().then((poolClient) => {
 	dbService.createTable(poolClient).then(poolClient.release());
-});
-
+}).then(() => {
 request('https://nycopendata.socrata.com/api/views/xx67-kt59/rows.csv?accessType=DOWNLOAD')
   // parse the csv file
   .pipe(etl.csv({
@@ -57,3 +56,4 @@ request('https://nycopendata.socrata.com/api/views/xx67-kt59/rows.csv?accessType
 	.finally(() => {
 		restaurantGradeCache = null;
 	});
+});
