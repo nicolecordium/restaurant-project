@@ -4,6 +4,5 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-	production: false,
-	databaseConnectionString: 'postgres://postgres:password@localhost:5432/postgresql-tetrahedral-43934'
+	production: false
 };

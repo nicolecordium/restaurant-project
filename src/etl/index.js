@@ -1,22 +1,17 @@
 const etl = require('etl');
 const request = require('request');
 const { Pool } = require('pg');
-const dbService = require('./db/database-service');
+const dbService = require('./db/database.service');
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL,
 	// ssl: true
 });
 let restaurantGradeCache = {};
 
-// todo: create the data table if doesn't already exist
-// pool.connect().then((poolClient) => {
-// 	dbService.checkTableExists(poolClient)
-// 		.then((exists) => {
-// 			if (!exists) {
-// 				dbService.createTable();
-// 			}
-// 		});
-// });
+// create the data table if doesn't already exist
+pool.connect().then((poolClient) => {
+	dbService.createTable(poolClient).then(poolClient.release());
+});
 
 request('https://nycopendata.socrata.com/api/views/xx67-kt59/rows.csv?accessType=DOWNLOAD')
   // parse the csv file
@@ -51,7 +46,8 @@ request('https://nycopendata.socrata.com/api/views/xx67-kt59/rows.csv?accessType
 
 		return d;
   }))
-  // upsert records to postgres with max 10 concurrent server requests
+  // upsert records to postgres with max 10 concurrent server requests-
+  // due to primary key newer rows for the same restaurant id will update older ones
   .pipe(etl.postgres.upsert(pool, 'public', 'restaurants', {concurrency:10}))
   // Switch from stream to promise chain and report done or error
   .promise()

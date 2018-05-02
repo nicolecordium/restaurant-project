@@ -1,19 +1,8 @@
-const schema = 'public';
-const tableName = 'restaurants';
-
-const checkTableExists = (databaseClient) => {
-	const checkExistsQuery = `SELECT EXISTS (
-		SELECT 1 
-		FROM   pg_catalog.pg_class c
-		JOIN   pg_catalog.pg_namespace n ON n.oid = c.relnamespace
-		WHERE  n.nspname = '${schema}'
-		AND    c.relname = '${tableName}'
-		);`;
-	return databaseClient.query(checkExistsQuery);
-};
-
 const createTable = (databaseClient) => {
-	const createQuery = `CREATE TABLE ${schema}.${tableName}
+	const createQuery = `
+	DROP TABLE public.restaurants;
+	
+	CREATE TABLE public.restaurants
 	(
 		id bigint NOT NULL,
 		name text COLLATE pg_catalog."default",
@@ -30,11 +19,11 @@ const createTable = (databaseClient) => {
 	)
 	TABLESPACE pg_default;
 	
-	ALTER TABLE ${schema}.${tableName}
+	ALTER TABLE public.restaurants
 		OWNER to postgres;`
 	return databaseClient.query(createQuery);
 };
 
 module.exports = {
-	checkTableExists
+	createTable
 };
