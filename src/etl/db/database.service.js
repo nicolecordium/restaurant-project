@@ -9,7 +9,6 @@ const createTable = (databaseClient) => {
 		address text COLLATE pg_catalog."default",
 		boro text COLLATE pg_catalog."default",
 		zipcode text COLLATE pg_catalog."default",
-		cuisine text COLLATE pg_catalog."default",
 		grade "char",
 		grade_date date,
 		CONSTRAINT restaurants_pkey PRIMARY KEY (id)

@@ -29,8 +29,12 @@ pool.connect().then((poolClient) => {
 		})
 		)
 		.pipe(etl.map(d => {
-			// remove rows with no grade, or rows that are older than ones we read before
-			if ((!d.grade) || ((restaurantGradeCache[d.camis] &&
+			// remove rows with no grade, rows that are not thai restaurants,
+			// rows whose grade is lower than 'B',
+			// or rows that are older than ones we read before
+			if ((!d.grade) || (d.grade > 'B') ||
+			(d.cuisine_description.toLowerCase().indexOf('thai') === -1) ||
+			((restaurantGradeCache[d.camis] &&
 				restaurantGradeCache[d.camis] > d.grade_date))) {
 				return;
 			} else {
