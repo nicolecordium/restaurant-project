@@ -41,10 +41,8 @@ function handleError(res, reason, message, code) {
   
 app.get('/api/restaurant', function(req, res, next){
 	return pool.connect().then((client) => {
-		return client.query({
-			text: 'SELECT * FROM public.restaurants',
-			values: [minGrade, cuisine],
-		}).then((queryResult) => {
+		return client.query('SELECT * FROM public.restaurants')
+		.then((queryResult) => {
 			if (queryResult && queryResult.rows) {
 				return res.status(200).json(queryResult.rows);
 			}

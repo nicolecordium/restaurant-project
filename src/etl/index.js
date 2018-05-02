@@ -10,11 +10,13 @@ let restaurantGradeCache = {};
 
 // create the data table if doesn't already exist
 pool.connect().then((poolClient) => {
-	dbService.createTable(poolClient).catch((err) => {
+	dbService.createTable(poolClient)
+	.catch((err) => {
 		console.log(err);
 	})
-.then(poolClient.release());
-}).then(() => {
+	.then(poolClient.release(), (err) => console.log(err));
+}, (err) => Promise.reject(err))
+.then(() => {
 	request('https://nycopendata.socrata.com/api/views/xx67-kt59/rows.csv?accessType=DOWNLOAD')
 		// parse the csv file
 		.pipe(etl.csv({
@@ -26,8 +28,7 @@ pool.connect().then((poolClient) => {
 					}
 				}
 			}
-		})
-		)
+		}))
 		.pipe(etl.map(d => {
 			// remove rows with no grade, rows that are not thai restaurants,
 			// rows whose grade is lower than 'B',
@@ -43,17 +44,22 @@ pool.connect().then((poolClient) => {
 				return d;
 			}
 		}))
-		// obtain geocode values and map the row into the data shape we will store
-		.pipe(() => {
+		// map the row into the data shape we will store
+		.pipe(etl.map((d) => {
 			d.id = d.camis;
 			d.name = d.dba;
 			d.address = d.building + ' ' + d.street;
-			var location = geocodeService.getGeocodeLocation(d.address, d.boro, 'NY', d.zipcode);
-			d.lat = location.lat;
-			d.lng = location.lng;
 
 			return d;
-		})
+		}))
+		// obtain geocode values
+		// .pipe(etl.map((d) => {
+		// 	var location = geocodeService.getGeocodeLocation(d.address, d.boro, 'NY', d.zipcode);
+		// 	d.latitude = location.lat;
+		// 	d.longitude = location.lng;
+
+		// 	return d;
+		// }))
 		// upsert records to postgres with max 10 concurrent server requests-
 		// due to primary key newer rows for the same restaurant id will update older ones
 		.pipe(etl.postgres.upsert(pool, 'public', 'restaurants', { concurrency: 10 }))
@@ -65,4 +71,4 @@ pool.connect().then((poolClient) => {
 		.finally(() => {
 			restaurantGradeCache = null;
 		});
-});
+}, (err) => console.log(err));

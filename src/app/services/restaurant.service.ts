@@ -10,6 +10,17 @@ export class RestaurantService {
 	query(): Promise<RestaurantRating[]> {
 		return this.http.get(this.restaurantApiUrl)
 			.toPromise()
-			.then(response => response.json() as RestaurantRating[]);
+			.then(response => response.json() as RestaurantRating[])
+			.then((ratings => ratings.sort(this.restaurantSorter).slice(0, 10)));
+	}
+
+	private restaurantSorter(a: RestaurantRating, b: RestaurantRating): number {
+		if (a.grade < b.grade) {
+			return -1;
+		} else if (a.grade > b.grade) {
+			return 1;
+		}
+
+		return 0;
 	}
 }

@@ -28,6 +28,7 @@
 
 # local development
 .env
+/src/environments/*
 
 # misc
 /.sass-cache

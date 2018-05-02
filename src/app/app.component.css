@@ -1,0 +1,9 @@
+.map-container {
+	flex: 1;
+	display: flex;
+}
+
+agm-map {
+	flex: 1;
+	height: 800px;
+}
