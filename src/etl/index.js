@@ -12,7 +12,6 @@ let restaurantGradeCache = {};
 pool.connect().then((poolClient) => {
 	dbService.createTable(poolClient).catch((err) => {
 		console.log(err);
-		process.exit(1);
 	})
 .then(poolClient.release());
 }).then(() => {
