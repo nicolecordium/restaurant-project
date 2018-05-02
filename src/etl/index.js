@@ -1,10 +1,10 @@
 const etl = require('etl');
 const request = require('request');
 const { Pool } = require('pg');
-const dbService = require('./db/database.service');
+const dbService = require('./services/database.service');
+const geocodeService = require('./services/geocode.service');
 const pool = new Pool({
-	connectionString: process.env.DATABASE_URL,
-	// ssl: true
+	connectionString: process.env.DATABASE_URL
 });
 let restaurantGradeCache = {};
 
@@ -43,15 +43,17 @@ pool.connect().then((poolClient) => {
 				return d;
 			}
 		}))
-		// map the row into the data shape we will store
-		.pipe(etl.map(d => {
+		// obtain geocode values and map the row into the data shape we will store
+		.pipe(() => {
 			d.id = d.camis;
 			d.name = d.dba;
 			d.address = d.building + ' ' + d.street;
-			d.cuisine = d.cuisine_description;
+			var location = geocodeService.getGeocodeLocation(d.address, d.boro, 'NY', d.zipcode);
+			d.lat = location.lat;
+			d.lng = location.lng;
 
 			return d;
-		}))
+		})
 		// upsert records to postgres with max 10 concurrent server requests-
 		// due to primary key newer rows for the same restaurant id will update older ones
 		.pipe(etl.postgres.upsert(pool, 'public', 'restaurants', { concurrency: 10 }))

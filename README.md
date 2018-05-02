@@ -11,7 +11,8 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running locally
 - Install postgres v 10 or greater with schema `public`
-- Create a .env file in the root folder with the following configs: `DATABASE_URL={{ local postgres connection string }}`
+- Obtain a Google Geocode API Key from https://developers.google.com/maps/documentation/geocoding/intro
+- Create a .env file in the root folder with the following configs: `DATABASE_URL={{ local postgres connection string }}` and `GEOCODE_API_KEY={{ your api key }}` 
 - Install dependencies and build the Angular application: `yarn`
 - Run `npm run start:etl` to create the data table and load data
 - Run the web application: `npm run start`

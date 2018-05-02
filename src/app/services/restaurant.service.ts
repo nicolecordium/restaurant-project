@@ -7,8 +7,8 @@ export class RestaurantService {
 	private restaurantApiUrl = '/api/restaurant';
 	constructor(private http: Http) { }
 
-	query(minimumGrade: string, cuisine: string): Promise<RestaurantRating[]> {
-		return this.http.get(this.restaurantApiUrl + `?minGrade=${minimumGrade}&cuisine=${cuisine}`)
+	query(): Promise<RestaurantRating[]> {
+		return this.http.get(this.restaurantApiUrl)
 			.toPromise()
 			.then(response => response.json() as RestaurantRating[]);
 	}

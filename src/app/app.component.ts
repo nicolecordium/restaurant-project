@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 
 	ngOnInit() {
 
-		this.restaurantService.query('A', 'Thai').then((result) => {
+		this.restaurantService.query().then((result) => {
 			this.restaurants = result;
 		});
 	}
