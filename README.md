@@ -27,7 +27,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## Running locally
-- Install postgres v 10.3 with schema `public` and table `restaurants`
+- Install postgres v 10.3 with schema `public` and table `restaurants` with the following fields: 
 - Create a .env file in the root folder with the following configs: `DATABASE_URL={{ local postgres connection string }}`
 - Run `npm run start:etl` to load data
 - Add your `databaseConnection` configuration to the config files in `src/environments/environment.ts`

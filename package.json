@@ -5,12 +5,11 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-	"start:etl": "node src/etl/index.js",
-	"start:api": "node src/server/index.js",
+    "start:etl": "node src/etl/index.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "postinstall": "ng build --aot -prod"
+    "postinstall": "ng build"
   },
   "private": true,
   "dependencies": {
@@ -29,8 +28,6 @@
     "core-js": "^2.4.1",
     "etl": "^0.5.11",
     "express": "^4.16.3",
-    "method-override": "^2.3.10",
-    "morgan": "^1.9.0",
     "pg": "^7.4.1",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"

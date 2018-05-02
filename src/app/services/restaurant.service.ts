@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { RestaurantRating } from '../../app/models';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs/Observable';
+import { Http, Response } from '@angular/http';
 
 @Injectable()
 export class RestaurantService {
-	constructor(private http: HttpClient) {}
+	private restaurantApiUrl = '/api/restaurant';
+	constructor(private http: Http) { }
 
-	query(minimumGrade: string, cuisine: string): any {
-		return this.http.get(`/restaurant?minGrade=${minimumGrade}&cuisine=${cuisine}`);
+	query(minimumGrade: string, cuisine: string): Promise<RestaurantRating[]> {
+		return this.http.get(this.restaurantApiUrl + `?minGrade=${minimumGrade}&cuisine=${cuisine}`)
+			.toPromise()
+			.then(response => response.json() as RestaurantRating[]);
 	}
 }
