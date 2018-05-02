@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RestaurantService } from './services';
+import { RestaurantRating } from './models';
 
 @Component({
 	selector: 'app-root',
@@ -8,11 +9,14 @@ import { RestaurantService } from './services';
 })
 export class AppComponent implements OnInit {
 	title = 'app';
-	restaurantService: RestaurantService;
+	restaurants: RestaurantRating[];
+
+	constructor(private restaurantService: RestaurantService) {}
 
 	ngOnInit() {
-		this.restaurantService = new RestaurantService();
 
-		const restaurants = this.restaurantService.query('A', 'Thai');
+		this.restaurantService.query('A', 'Thai').subscribe((result) => {
+			this.restaurants = result;
+		});
 	}
 }

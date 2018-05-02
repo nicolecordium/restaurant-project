@@ -5,5 +5,5 @@
 
 export const environment = {
 	production: false,
-	databaseConnection: process.env.DATABASE_URL
+	databaseConnectionString: 'postgres://postgres:password@localhost:5432/postgresql-tetrahedral-43934'
 };

@@ -30,6 +30,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - Install postgres v 10.3 with schema `public` and table `restaurants`
 - Create a .env file in the root folder with the following configs: `DATABASE_URL={{ local postgres connection string }}`
 - Run `npm run start:etl` to load data
-- Add your configurations to the config files in `src/environments/environment.ts`
+- Add your `databaseConnection` configuration to the config files in `src/environments/environment.ts`
 - Run the web application: `ng serve`
 - Access the web application at `localhost:4200`

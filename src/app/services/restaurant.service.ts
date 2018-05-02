@@ -1,18 +1,14 @@
+import { Injectable } from '@angular/core';
 import { RestaurantRating } from '../../app/models';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { IMain, IDatabase } from 'pg-promise';
-import * as pgPromise from 'pg-promise';
+import { Observable } from 'rxjs/Observable';
 
+@Injectable()
 export class RestaurantService {
-	db: IMain;
-	constructor() {
-		this.db = pgPromise(environment.databaseConnection);
-	}
+	constructor(private http: HttpClient) {}
 
-	query(minimumGrade: string, cuisine: string): Promise<RestaurantRating[]> {
-		return this.db.many('SELECT * FROM restaurants WHERE grade >= ${minGrade} AND cuisine = ${cuisine}', {
-			minGrade: minimumGrade,
-			cuisine: cuisine
-		});
+	query(minimumGrade: string, cuisine: string): any {
+		return this.http.get(`/restaurant?minGrade=${minimumGrade}&cuisine=${cuisine}`);
 	}
 }
