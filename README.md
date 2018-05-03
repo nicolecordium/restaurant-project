@@ -27,4 +27,4 @@ Here is the schema for the `restaurants` table:
 5. Install dependencies and build the Angular application: `yarn` or `npm install`
 6. Run `npm run start:etl` to create the data table and load data
 7. Run the web application: `npm run start`
-8. Access the web application at `localhost:5000`
+8. Access the web application at the port described in the console.
