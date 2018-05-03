@@ -18,7 +18,7 @@ var pool = new Pool({
 
 // Connect to the database before starting the application server.
 pool.connect().then((client) => {
-	console.log("Connected to the database at " + client.database);
+	console.log("Connected to the database " + client.database);
 
 	// Initialize the app.
 	var server = app.listen(process.env.PORT || 8080, function () {
