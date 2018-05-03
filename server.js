@@ -2,6 +2,7 @@ var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 var { Pool } = require('pg');
+require('dotenv').config();
 
 var app = express();
 app.use(bodyParser.json());
@@ -17,9 +18,7 @@ var pool = new Pool({
 
 // Connect to the database before starting the application server.
 pool.connect().then((client) => {
-	// Save database object from the callback for reuse.
-	//   pool = client.db();
-	console.log("Database connection ready");
+	console.log("Connected to the database at " + client.database);
 
 	// Initialize the app.
 	var server = app.listen(process.env.PORT || 8080, function () {
@@ -37,7 +36,7 @@ pool.connect().then((client) => {
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
 	console.log("ERROR: " + reason);
-	res.status(code || 500).json({ "error": message });
+	return res.status(code || 500).json({ "error": message });
 }
 
 // api/restaurant endpoint
@@ -50,7 +49,7 @@ app.get('/api/restaurant', function (req, res, next) {
 				}
 			})
 			.catch((err) => {
-				return handleError(res, err).json();
+				return handleError(res, err);
 			})
 			.then(() => client.release());
 	}, (err) => {

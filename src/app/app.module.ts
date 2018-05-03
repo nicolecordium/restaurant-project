@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 import { AgmCoreModule } from '@agm/core';
 
 import { AppComponent } from './app.component';
-import { RestaurantService } from './services';
+import { ApiService } from './services';
 import { environment } from '../environments/environment.prod';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { environment } from '../environments/environment.prod';
 		})
 	],
 	providers: [
-		RestaurantService
+		ApiService
 	],
 	bootstrap: [AppComponent]
 })
