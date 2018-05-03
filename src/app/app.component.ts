@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RestaurantService } from './services';
-import { Restaurant, Marker } from './models';
+import { MarkerViewModel } from './models';
 
 @Component({
 	selector: 'app-root',
@@ -9,8 +9,7 @@ import { Restaurant, Marker } from './models';
 })
 export class AppComponent implements OnInit {
 	title = 'Best Thai Restaurants in NYC';
-	restaurants: Restaurant[] = [];
-	markers: Marker[] = [];
+	markers: MarkerViewModel[] = [];
 
 	// Hardcoding NYC coords
 	mapCenter = { lat: 40.7127753, lng: -74.0059728 };
@@ -26,11 +25,13 @@ export class AppComponent implements OnInit {
 	ngOnInit() {
 		this.restaurantService.getRestaurants()
 		.then((restaurants) => {
-			this.restaurants = restaurants;
-			this.restaurants.forEach((r) => {
-				this.restaurantService.getMarker(r)
+			restaurants.forEach((restaurant) => {
+				this.restaurantService.getMarker(restaurant)
 					.then((marker) => {
-						this.markers.push(marker);
+						this.markers.push({
+							marker: marker,
+							restaurant: restaurant
+						});
 					});
 			});
 		});

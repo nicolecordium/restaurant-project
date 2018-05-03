@@ -11,7 +11,7 @@ export class RestaurantService {
 	getRestaurants(): Promise<Restaurant[]> {
 		return this.http.get(this.restaurantApiUrl)
 			.toPromise()
-			.then(response => response.json().map((r) => new Restaurant(r)))
+			.then(response => response.json().map((restaurant) => new Restaurant(restaurant)))
 			.then((ratings => ratings
 				.sort(this.restaurantSorter)
 				.slice(0, 10)));
@@ -24,10 +24,7 @@ export class RestaurantService {
 			.toPromise()
 			.then(response => {
 				const location = response.json();
-				return new Marker({
-					...location,
-					title: restaurant.name
-				});
+				return new Marker(location);
 			});
 	}
 

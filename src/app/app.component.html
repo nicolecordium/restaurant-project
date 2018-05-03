@@ -3,9 +3,17 @@
 </div>
 <div class="map-container">
 	<agm-map [fitBounds]="mapBounds" [latitude]="mapCenter.lat" [longitude]="mapCenter.lng">
-		<agm-marker *ngFor="let marker of markers"
-			[latitude]="marker.latitude"
-			[longitude]="marker.longitude"
-			[title]="marker.title"></agm-marker>
+		<agm-marker *ngFor="let restaurantMarker of markers"
+			[latitude]="restaurantMarker.marker.latitude"
+			[longitude]="restaurantMarker.marker.longitude"
+			[openInfoWindow]="true">
+			<agm-info-window>
+				<strong>{{ restaurantMarker.restaurant.name }}</strong>
+				<p>
+					{{ restaurantMarker.restaurant.address }}<br />
+					{{ restaurantMarker.restaurant.boro }}, NY {{ restaurantMarker.restaurant.zipcode }}
+				</p>
+			</agm-info-window>
+		</agm-marker>
 	</agm-map>
 </div>

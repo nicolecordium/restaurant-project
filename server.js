@@ -78,6 +78,7 @@ app.get('/api/markers', function(req, res, next) {
 				});
 			}
 
+			// another response was returned, return it for debugging purposes
 			return res.status(200).json(parsedBody);
 	});
 });
