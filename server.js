@@ -64,7 +64,7 @@ app.get('/api/markers', function(req, res, next) {
 	var address = req.query.address;
 	var apiKey = process.env.GEOCODE_API_KEY;
 
-	return request(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&region=us&key=${apiKey}`,
+	request(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&region=us&key=${apiKey}`,
 		function (err, response, body) {
 			if (err) {
 				return handleError(res, err).json();
@@ -77,6 +77,5 @@ app.get('/api/markers', function(req, res, next) {
 					longitude: location.lng
 				});
 			}
-			return res.status(200).json({});
 	});
 });

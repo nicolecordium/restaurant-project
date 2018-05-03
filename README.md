@@ -7,6 +7,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
 ## ETL and schema
+The project includes an ETL job that loads restaurant grade data from the DOHMH New York City Restaurant Inspection Results data set (https://nycopendata.socrata.com/api/views/xx67-kt59/rows.csv?accessType=DOWNLOAD).
+The data is loaded into the `public.restaurants` table of the connected database. 
+There is no need to manually create the table, the ETL will drop and recreate it. 
 Here is the schema for the `restaurants` table:
 - `id` (bigint, primary key): Unique identifier for the restaurant (source: DOHMH New York City Restaurant Inspection Results)
 - `name` (text): name of the restaurant (source: DOHMH New York City Restaurant Inspection Results)
