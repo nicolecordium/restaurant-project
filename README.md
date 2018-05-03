@@ -14,8 +14,6 @@ Here is the schema for the `restaurants` table:
 - `boro` (text): boro of the restaurant (source: DOHMH New York City Restaurant Inspection Results)
 - `zipcode` (number): zipcode of the restaurant (source: DOHMH New York City Restaurant Inspection Results)
 - `grade` (char(1)): most recent grade received by the restaurant (source: DOHMH New York City Restaurant Inspection Results)
-- `latitude` (numeric): latitude of the restaurant (source: Google Geocoding API)
-- `longitude` (numeric): longitude of the restaurant (source: Google Geocoding API)
 
 ## Running locally
 1. Install postgres v 10 or greater with schema `public`

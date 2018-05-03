@@ -2,7 +2,6 @@ const etl = require('etl');
 const request = require('request');
 const { Pool } = require('pg');
 const dbService = require('./services/database.service');
-const geocodeService = require('./services/geocode.service');
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL
 });
@@ -57,28 +56,6 @@ pool.connect().then((poolClient) => {
 		.pipe(etl.postgres.upsert(pool, 'public', 'restaurants', { concurrency: 10 }))
 		// Switch from stream to promise chain and report done or error
 		.promise()
-		// extract and load geocode values to the geo table
-		.then(() => {
-			pool.connect().then((client) => {
-				dbService.readTable(client)
-				.then((data) => {
-					data.rows.forEach(element => {
-						geocodeService.getGeocodeLocation(element.address, element.boro, 'NY', element.zipcode,
-						(location) => {
-							if (location) {
-								var row = {
-									id: element.id,
-									latitude: location.lat,
-									longitude: location.lng
-								}
-								dbService.updateLocation(client, row);
-							}
-						})
-					});
-				})
-				.then(() => client.release());
-			});
-		})
 		.then(() => console.log('done'), e => {
 			console.log('error', e);
 		})

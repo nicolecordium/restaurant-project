@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RestaurantService } from './services';
-import { Restaurant } from './models';
+import { Restaurant, Marker } from './models';
 
 @Component({
 	selector: 'app-root',
@@ -8,9 +8,10 @@ import { Restaurant } from './models';
 	styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-	title = 'app';
-	restaurants: Restaurant[];
+	title = 'Best Thai Restaurants in NYC';
+	markers: Marker[] = [];
 
+	// Hardcoding NYC coords
 	mapCenter = { lat: 40.7127753, lng: -74.0059728 };
 	mapBounds = {
 		east: -73.70027209999999,
@@ -23,9 +24,14 @@ export class AppComponent implements OnInit {
 
 	ngOnInit() {
 
-		this.restaurantService.query()
+		this.restaurantService.getRestaurants()
 		.then((restaurants) => {
-			this.restaurants = restaurants;
+			restaurants.forEach((r) => {
+				this.restaurantService.getMarker(r)
+					.then((marker) => {
+						this.markers.push(marker);
+					});
+			});
 		});
 	}
 }

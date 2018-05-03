@@ -1,11 +1,11 @@
-<div style="text-align:center">
+<div class="title">
   <h1>10 Highly-Graded Thai Restaurants in NYC</h1>
 </div>
 <div class="map-container">
 	<agm-map [fitBounds]="mapBounds" [latitude]="mapCenter.lat" [longitude]="mapCenter.lng">
-		<agm-marker *ngFor="let marker of restaurants"
+		<agm-marker *ngFor="let marker of markers"
 			[latitude]="marker.latitude"
 			[longitude]="marker.longitude"
-			[title]="marker.name"></agm-marker>
+			[title]="marker.title"></agm-marker>
 	</agm-map>
 </div>
