@@ -3,9 +3,9 @@ import { Restaurant, Marker } from '../../app/models';
 import { Http, Response } from '@angular/http';
 
 @Injectable()
-export class RestaurantService {
+export class ApiService {
 	private restaurantApiUrl = '/api/restaurant';
-	private markersApiUrl = '/api/markers';
+	private markersApiUrl = '/api/marker';
 	constructor(private http: Http) { }
 
 	getRestaurants(): Promise<Restaurant[]> {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RestaurantService } from './services';
+import { ApiService } from './services';
 import { MarkerViewModel } from './models';
 
 @Component({
@@ -20,13 +20,13 @@ export class AppComponent implements OnInit {
 		south: 40.4773991
 	};
 
-	constructor(private restaurantService: RestaurantService) { }
+	constructor(private apiService: ApiService) { }
 
 	ngOnInit() {
-		this.restaurantService.getRestaurants()
+		this.apiService.getRestaurants()
 		.then((restaurants) => {
 			restaurants.forEach((restaurant) => {
-				this.restaurantService.getMarker(restaurant)
+				this.apiService.getMarker(restaurant)
 					.then((marker) => {
 						this.markers.push({
 							marker: marker,

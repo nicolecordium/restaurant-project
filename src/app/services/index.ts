@@ -1,1 +1,1 @@
-export { RestaurantService } from './restaurant.service';
+export { ApiService } from './api.service';
