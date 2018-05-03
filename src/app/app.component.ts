@@ -9,6 +9,7 @@ import { Restaurant, Marker } from './models';
 })
 export class AppComponent implements OnInit {
 	title = 'Best Thai Restaurants in NYC';
+	restaurants: Restaurant[] = [];
 	markers: Marker[] = [];
 
 	// Hardcoding NYC coords
@@ -23,10 +24,10 @@ export class AppComponent implements OnInit {
 	constructor(private restaurantService: RestaurantService) { }
 
 	ngOnInit() {
-
 		this.restaurantService.getRestaurants()
 		.then((restaurants) => {
-			restaurants.forEach((r) => {
+			this.restaurants = restaurants;
+			this.restaurants.forEach((r) => {
 				this.restaurantService.getMarker(r)
 					.then((marker) => {
 						this.markers.push(marker);
