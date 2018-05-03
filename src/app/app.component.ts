@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RestaurantService, GeocodeService } from './services';
-import { RestaurantRating, Marker } from './models';
+import { RestaurantService } from './services';
+import { Restaurant } from './models';
 
 @Component({
 	selector: 'app-root',
@@ -9,7 +9,7 @@ import { RestaurantRating, Marker } from './models';
 })
 export class AppComponent implements OnInit {
 	title = 'app';
-	restaurants: RestaurantRating[];
+	restaurants: Restaurant[];
 
 	mapCenter = { lat: 40.7127753, lng: -74.0059728 };
 	mapBounds = {
@@ -18,21 +18,14 @@ export class AppComponent implements OnInit {
 		west: -74.25908989999999,
 		south: 40.4773991
 	};
-	restaurantMarkers: Marker[] = [];
 
-	constructor(private restaurantService: RestaurantService, private geocodeService: GeocodeService) { }
+	constructor(private restaurantService: RestaurantService) { }
 
 	ngOnInit() {
 
 		this.restaurantService.query()
 		.then((restaurants) => {
 			this.restaurants = restaurants;
-			this.restaurants.forEach((r: RestaurantRating) => {
-				this.geocodeService.getMarker(r)
-				.then((marker: Marker) => {
-					this.restaurantMarkers.push(marker);
-				});
-			});
 		});
 	}
 }

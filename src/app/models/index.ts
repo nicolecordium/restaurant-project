@@ -1,2 +1,1 @@
-export { RestaurantRating } from './restaurant-rating';
-export { Marker } from './marker';
+export { Restaurant } from './restaurant';

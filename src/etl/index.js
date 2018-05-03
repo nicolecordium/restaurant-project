@@ -52,19 +52,33 @@ pool.connect().then((poolClient) => {
 
 			return d;
 		}))
-		// obtain geocode values
-		// .pipe(etl.map((d) => {
-		// 	var location = geocodeService.getGeocodeLocation(d.address, d.boro, 'NY', d.zipcode);
-		// 	d.latitude = location.lat;
-		// 	d.longitude = location.lng;
-
-		// 	return d;
-		// }))
 		// upsert records to postgres with max 10 concurrent server requests-
 		// due to primary key newer rows for the same restaurant id will update older ones
 		.pipe(etl.postgres.upsert(pool, 'public', 'restaurants', { concurrency: 10 }))
 		// Switch from stream to promise chain and report done or error
 		.promise()
+		// extract and load geocode values to the geo table
+		.then(() => {
+			pool.connect().then((client) => {
+				dbService.readTable(client)
+				.then((data) => {
+					data.rows.forEach(element => {
+						geocodeService.getGeocodeLocation(element.address, element.boro, 'NY', element.zipcode,
+						(location) => {
+							if (location) {
+								var row = {
+									id: element.id,
+									latitude: location.lat,
+									longitude: location.lng
+								}
+								dbService.updateLocation(client, row);
+							}
+						})
+					});
+				})
+				.then(() => client.release());
+			});
+		})
 		.then(() => console.log('done'), e => {
 			console.log('error', e);
 		})
