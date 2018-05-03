@@ -13,7 +13,6 @@ export class RestaurantService {
 			.toPromise()
 			.then(response => response.json().map((r) => new Restaurant(r)))
 			.then((ratings => ratings
-				.filter((r) => (r.latitude && r.longitude))
 				.sort(this.restaurantSorter)
 				.slice(0, 10)));
 	}
